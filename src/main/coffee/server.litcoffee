@@ -14,13 +14,20 @@ requests. The rest is everything that we provide.
     exports.create = (port) ->
       app = express()
 
+Express is a very minimal web service, relying mostly on plugins
+to provide behavior. Serving static content is one of the few
+behaviors provided directly by Express. We tell it which directory
+we want to use to serve our static content:
+
+      app.use express.static "public"
+
 Here we're just providing a `Hello, world!` example. This is more
 for proof of concept than anything.
 
       app.get "/", (req, res, next) ->
         res.status(200).send("Hello, FireMUD!")
         next()
-        
+
 We return the service to the caller, so they can spin up an HTTP
 (or HTTPS) server to listen for requests.
 

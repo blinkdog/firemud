@@ -28,6 +28,9 @@ These are the steps you need to set up a development environment.
     npm install
 
 The Literate CoffeeScript source files are located in `src/main/coffee`.
+When you are ready to rebuild the project, simply type:
+
+    cake rebuild
 
 ## License
 Copyright 2015 Patrick Meade.

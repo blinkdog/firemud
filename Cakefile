@@ -23,7 +23,7 @@ PROJECT_NAME = "FireMUD"
 #-----------------------------------------------------------------------------
 
 task "build", "Build #{PROJECT_NAME}", ->
-  compile -> test()
+  compile -> test -> lint()
 
 task "check", "Check dependency versions", ->
   project = require "./package.json"
@@ -42,7 +42,7 @@ task "develop", "Automatically recompile while working", ->
   develop()
 
 task "rebuild", "Rebuild #{PROJECT_NAME}", ->
-  clean -> compile -> test()
+  clean -> compile -> test -> lint()
 
 #-----------------------------------------------------------------------------
 
@@ -67,6 +67,11 @@ develop = ->
   exec "node_modules/.bin/coffee --output lib --watch --compile src/main/coffee", (err, stdout, stderr) ->
     console.log stdout
     console.error stderr if err?
+
+lint = (next)->
+  exec "node_modules/.bin/bootlint -d W002 public/index.html", (err, stdout, stderr) ->
+    console.log stdout + stderr
+    next?() if stdout.indexOf("For details") < 0
 
 test = (next) ->
   exec "node_modules/.bin/mocha --colors --recursive", (err, stdout, stderr) ->
